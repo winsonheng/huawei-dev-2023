@@ -7,7 +7,7 @@ export const PATH = {
     SIGNUP_PAGE: ROOT + 'signup/',
     VERIFIED_PAGE: ROOT + 'verify-email/:uidb64/:token',
     USER_SETUP_PAGE: ROOT + 'user-setup/',
-    MY_SONGS: ROOT + 'my-songs/',
-    GLOBAL_PLAYLIST: ROOT + 'global-playlist/',
-    SONG_DETAILS: ROOT + 'song/:songid/',
+    REWARDS_PAGE: ROOT + 'rewards/',
+    PRODUCTS_PAGE: ROOT + 'products/',
+    PRODUCT_DETAILS: ROOT + 'products/:productid/',
 };

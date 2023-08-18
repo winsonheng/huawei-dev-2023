@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import '../assets/styles/SongDetails.css'
+import '../assets/styles/ProductDetails.css'
 import { BACKEND_BASE_URL, PATH } from '../constants/config';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { removeFileExtension } from '../util/FileUtil';
 import { HttpMethod, StatusCode, postData } from '../util/RestUtil';
 import { SONGS_GET_SONG_BY_ID } from '../constants/endpoints';
 
-export default function SongDetails(props) {
+export default function ProductDetails(props) {
   const { songid } = useParams();
 
   const location = useLocation();
@@ -55,27 +55,6 @@ export default function SongDetails(props) {
         
       </div>
       <div className='songdetails-bottom'>
-        <div className='midi-container'>
-          {
-          /**
-           * sound-font takes the relative url + /soundfont.json and instrument.json
-           * to obtain the json files.
-           * However when using static html page it correctly takes from https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus/soundfont.json
-           */
-          }
-          {(() => {
-            if (isLoaded) {
-              return (
-                <midi-player
-                  src={song.transcription}
-                  sound-font='https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus' visualizer="#myVisualizer">
-                </midi-player>
-              );
-            }
-          })()}
-          <midi-visualizer type="piano-roll" id="myVisualizer" ref={visualizer}></midi-visualizer>
-
-        </div>
       </div>
     </div>
   )

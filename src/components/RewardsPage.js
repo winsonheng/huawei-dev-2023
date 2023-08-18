@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from 'reactstrap'
 import { Link } from 'react-router-dom'
-import '../assets/styles/MySongs.css'
+import '../assets/styles/RewardsPage.css'
 import { BACKEND_BASE_URL, PATH } from '../constants/config'
 import { HttpMethod, StatusCode, postData } from '../util/RestUtil'
 import { SONGS_GET_MY_SONGS } from '../constants/endpoints'
-import SongTable from './SongTable'
+import ProductCard from './ProductCard'
 
-export default function MySongs() {
+export default function RewardsPage() {
 
   const [songList, setSongList] = useState(null);
 
@@ -46,7 +46,7 @@ export default function MySongs() {
         </Link>
       </div>
       <div className='mysongs-bottom'>
-        <SongTable songList={songList}></SongTable>
+        <ProductCard songList={songList}></ProductCard>
       </div>
     </div>
   )

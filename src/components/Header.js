@@ -14,17 +14,17 @@ export default function Header(props){
     <div className="header">
       <div className="header-container">
         <Link to={PATH.ROOT}>
-          <img className="logo" src={logo} alt="Missing image"></img>
+          <img className="logo" src={logo}  alt="Missing image"></img>
         </Link>
         <div className="header-links">
-          <Link to={PATH.MY_SONGS} className='header-link-wrapper'>
+          <Link to={PATH.PRODUCTS_PAGE} className='header-link-wrapper'>
             <button className="header-link">
-              My Songs
+              Products
             </button>
           </Link>
-          <Link to={PATH.GLOBAL_PLAYLIST} className='header-link-wrapper'>
+          <Link to={PATH.REWARDS_PAGE} className='header-link-wrapper'>
             <button className="header-link">
-              Global Playlist
+              Rewards
             </button>
           </Link>
           {(() => {

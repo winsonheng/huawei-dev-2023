@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import { PATH } from '../constants/config';
 
-export default function SongTable(props) {
+export default function ProductCard(props) {
   const songList = props.songList;
   console.log(songList);
 
@@ -61,7 +61,7 @@ export default function SongTable(props) {
             <tr key={item.id}>
               <td>{item.username}</td>
 
-                <td><Link to={PATH.SONG_DETAILS.replace(':songid', item.id)} state={{ song: item }}>{item.name}</Link></td>
+                <td><Link to={PATH.PRODUCT_DETAILS.replace(':productid', item.id)} state={{ song: item }}>{item.name}</Link></td>
               
               <td>{new Date(item.upload_date).toLocaleString()}</td>
               <td>{/**Change to download icon*/}<a href={item.download_link} target='_blank'>{item.download_link != '' ? 'Download' : ''}</a></td>

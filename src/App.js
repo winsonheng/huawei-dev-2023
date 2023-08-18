@@ -1,20 +1,18 @@
-import logo from './logo.svg';
 import './assets/styles/App.css';
 import Header from './components/Header';
 import LandingPage from './components/LandingPage';
-import { HttpMethod, StatusCode, getCookie, getCsrfToken, postData } from './util/RestUtil';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { getCsrfToken } from './util/RestUtil';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
-import MySongs from './components/MySongs';
-import { BACKEND_BASE_URL, PATH } from './constants/config';
-import GlobalPlaylist from './components/GlobalPlaylist';
+import { PATH } from './constants/config';
 import Cookies from 'universal-cookie';
-import { USERS_GET_CSRF } from './constants/endpoints';
 import { createContext, useEffect, useState } from 'react';
 import VerifiedPage from './components/VerifiedPage';
 import UserSetupPage from './components/UserSetupPage';
-import SongDetails from './components/SongDetails';
+import RewardsPage from './components/RewardsPage';
+import ProductsPage from './components/ProductsPage';
+import ProductDetails from './components/ProductDetails';
 
 export const UserContext = createContext({
   isLoggedIn: false,
@@ -22,6 +20,8 @@ export const UserContext = createContext({
 });
 
 function App() {
+
+  const location = useLocation();
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -46,7 +46,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={"App" + (location.pathname === '/' ? ' landing' : '')}>
       <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
         <Header></Header>
       </UserContext.Provider>
@@ -58,9 +58,9 @@ function App() {
           <Route path={PATH.SIGNUP_PAGE} element={<SignupPage />}></Route>
           <Route path={PATH.VERIFIED_PAGE} element={<VerifiedPage />}></Route>
           <Route path={PATH.USER_SETUP_PAGE} element={<UserSetupPage handleLogin={handleLogin}/>} exact={true}></Route>
-          <Route path={PATH.MY_SONGS} element={<MySongs />}></Route>
-          <Route path={PATH.GLOBAL_PLAYLIST} element={<GlobalPlaylist />}></Route>
-          <Route path={PATH.SONG_DETAILS} element={<SongDetails />}></Route>
+          <Route path={PATH.REWARDS_PAGE} element={<RewardsPage />}></Route>
+          <Route path={PATH.PRODUCTS_PAGE} element={<ProductsPage />}></Route>
+          <Route path={PATH.PRODUCT_DETAILS} element={<ProductDetails />}></Route>
         </Route>
     </Routes>
     </div>

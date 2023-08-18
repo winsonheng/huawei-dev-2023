@@ -51,7 +51,7 @@ export default function UserSetupPage(props) {
       if (response.status === StatusCode.OK) {
         user.username = userInputs.username;
         props.handleLogin(user);
-        navigate(PATH.MY_SONGS);
+        navigate(PATH.REWARDS_PAGE);
       } else {
         toast.error('Something went wrong with our servers! Please try again later');
       }

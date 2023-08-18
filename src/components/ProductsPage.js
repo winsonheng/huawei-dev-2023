@@ -1,13 +1,13 @@
-import '../assets/styles/GlobalPlaylist.css'
+import '../assets/styles/ProductsPage.css'
 import React, { useEffect, useState } from 'react'
 import { Table } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { BACKEND_BASE_URL, PATH } from '../constants/config'
 import { HttpMethod, StatusCode, postData } from '../util/RestUtil'
 import { SONGS_GET_ALL_SONGS, SONGS_GET_MY_SONGS } from '../constants/endpoints'
-import SongTable from './SongTable'
+import ProductCard from './ProductCard'
 
-export default function GlobalPlaylist() {
+export default function ProductsPage() {
   const [songList, setSongList] = useState(null);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function GlobalPlaylist() {
         </Link>
       </div>
       <div className='mysongs-bottom'>
-        <SongTable songList={songList}></SongTable>
+        <ProductCard songList={songList}></ProductCard>
       </div>
     </div>
   )

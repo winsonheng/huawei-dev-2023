@@ -25,3 +25,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+setup.txt
+TODO.txt
+credentials.csv
