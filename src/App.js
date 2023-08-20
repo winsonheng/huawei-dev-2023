@@ -13,6 +13,7 @@ import UserSetupPage from './components/UserSetupPage';
 import RewardsPage from './components/RewardsPage';
 import ProductsPage from './components/ProductsPage';
 import ProductDetails from './components/ProductDetails';
+import { ToastContainer } from 'react-toastify';
 
 export const UserContext = createContext({
   isLoggedIn: false,
@@ -49,6 +50,7 @@ function App() {
 
   return (
     <div className={"App" + (location.pathname === '/' ? ' landing' : '')}>
+      <ToastContainer theme='colored' />
       <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
         <Header forceUpdate={forceUpdate}></Header>
       </UserContext.Provider>

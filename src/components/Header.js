@@ -21,7 +21,7 @@ export default function Header(props){
   const { t, i18n } = useTranslation();
 
   const languageOptions = [];
-  let defaultLanguage = {};
+  let defaultLanguage;
 
   for (const key in Languages) {
     const option = {
@@ -31,7 +31,10 @@ export default function Header(props){
     };
     languageOptions.push(option);
 
-    if (key === DEFAULT_LANGUAGE) {
+    if (key === i18n.language) {
+      defaultLanguage = option
+    }
+    else if (defaultLanguage === undefined && key === DEFAULT_LANGUAGE) {
       defaultLanguage = option;
     }
   }
@@ -43,7 +46,7 @@ export default function Header(props){
     </div>
   );
 
-  const [isContributor, setIsContributor] = useState(false);
+  const [isContributor, setIsContributor] = useState(sessionStorage.getItem("isContributor") === 'true' ? true : false);
 
   function handleContributorChange(checked) {
     sessionStorage.setItem("isContributor", checked);

@@ -10,7 +10,8 @@
     "selectLanguage": "Sélectionner la langue",
     "suggest": "Proposer une traduction",
     "submit": "Soumettre",
-    "feedback": "Feedback"
+    "feedback": "Retour",
+    "thankYou": "Nous vous remercions de votre contribution! Voici 5🪙 pour vos efforts !"
   },
   "T_HEADER": {
     "contributorMode": "Mode Contributeur",

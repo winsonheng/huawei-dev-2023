@@ -13,6 +13,7 @@ export const USERS_GET_CSRF = "users/getCSRF/";
 export const AUTH_REGISTER = 'auth/register';
 export const AUTH_LOGIN = 'auth/login';
 export const TRANSLATIONS_CREATE = 'translations';
+export const TRANSLATIONS_BY_CLIENT = 'translations/by_client';
 export const TRANSLATIONS_QUERY = 'translations';
 export const LANGUAGES_LIST = 'languages';
 export const LANGUAGES_CREATE = 'languages';

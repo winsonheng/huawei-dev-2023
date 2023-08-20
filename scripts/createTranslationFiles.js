@@ -1,4 +1,5 @@
 require('dotenv').config({ path: '.env.development' });
+const clientID = parseInt(process.env.REACT_APP_CLIENT_ID);
 const fetch = require("node-fetch");
 const { Languages: Languages, UnsupportedLanguages } = require("../src/constants/languages");
 const {
@@ -248,7 +249,7 @@ async function createAllLanguages() {
 /**
  * Uploads the existing translations for a given language to the backend
  */
-function syncTranslationsToBackend(srcPtr, targetPtr, srcId, targetId) {
+function getAllTranslationsToSync(srcPtr, targetPtr, srcId, targetId, arr) {
   if (srcPtr === undefined) {
     return;
   }
@@ -268,19 +269,26 @@ function syncTranslationsToBackend(srcPtr, targetPtr, srcId, targetId) {
       typeof srcObj === "object"
     ) {
       // Both values are objects => Recursively overwrite nested objects
-      syncTranslationsToBackend(srcObj, targetObj, srcId, targetId);
+      getAllTranslationsToSync(srcObj, targetObj, srcId, targetId, arr);
     } else if (
       (srcObj !== null && typeof srcObj === "string") &&
       (targetObj !== null && typeof targetObj === "string")
     ) {
       // Both values are type string => Upload to backend
-      uploadTranslation(srcObj, targetObj, srcId, targetId);
+      arr.push({
+        sourceLanguageID: srcId,
+        targetLanguageID: targetId,
+        text: srcObj,
+        translation: targetObj,
+        clientID: clientID
+      });
     }
   }
 }
 
-function uploadTranslation(text, translation, sourceLanguageID, targetLanguageID) {
-  const clientID = parseInt(process.env.REACT_APP_CLIENT_ID);
+function uploadTranslation(translationsToSync) {
+
+  console.log('Syncing:', translationsToSync);
 
   fetch(process.env.REACT_APP_API_BASE_URL + 'translations', {
     method: 'POST',
@@ -289,19 +297,15 @@ function uploadTranslation(text, translation, sourceLanguageID, targetLanguageID
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      text: text,
-      translation: translation,
-      sourceLanguageID: sourceLanguageID,
-      targetLanguageID: targetLanguageID,
-      clientID: clientID
+      translations: translationsToSync
     })
   }).then(response => {
     return response.json();
   }).then(response => {
     if (response.error) {
-      console.log(`ERROR | Upload fail for "${text}" to "${translation}" from lang ${sourceLanguageID} to ${targetLanguageID}`, response);
+      console.log(`ERROR | Could not sync to backend`, response);
     } else {
-      console.log(`SUCCESS | Uploaded translation for "${text}" to "${translation}" from lang ${sourceLanguageID} to ${targetLanguageID}`);
+      console.log(`SUCCESS | Translations synced to backend`);
     }
   });
 }
@@ -313,7 +317,7 @@ createAllLanguages().then(clientIds => {
     return;
   }
   fs.writeFileSync(
-    'public/locales/clientIds.json',
+    'src/constants/clientIds.json',
     JSON.stringify(
       clientIds,
       (key, val) => (val === undefined ? null : val), // Convert undefined to null since undefined values are auto discarded
@@ -325,7 +329,8 @@ createAllLanguages().then(clientIds => {
 }).then(res => {
   // For each existing translation.json file, upload existing translations to backend
 
-  const clientIds = require('../public/locales/clientIds.json');
+  const clientIds = require('../src/constants/clientIds.json');
+  const translationsToSync = [];
 
   for (const lang in Languages) {
     if (lang === DEFAULT_LANGUAGE) {
@@ -348,8 +353,10 @@ createAllLanguages().then(clientIds => {
     const srcId = clientIds[DEFAULT_LANGUAGE];
     const targetId = clientIds[lang];
 
-    syncTranslationsToBackend(tGroupsDefaultLanguage, readJson, srcId, targetId);
+    getAllTranslationsToSync(tGroupsDefaultLanguage, readJson, srcId, targetId, translationsToSync);
   }
+
+  uploadTranslation(translationsToSync);
 })
 
 // Enter all required values for the DEFAULT_LANGUAGE (en) in constants/translations.js

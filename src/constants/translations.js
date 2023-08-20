@@ -23,7 +23,8 @@ const T_TOOLTIP = {
   selectLanguage: 'Select language',
   suggest: 'Suggest a translation',
   submit: 'Submit',
-  feedback: 'Feedback'
+  feedback: 'Feedback',
+  thankYou: "Thank you for your contribution! Here's 5🪙 for your efforts!"
 }
 
 /**

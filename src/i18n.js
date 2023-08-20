@@ -4,6 +4,9 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import { DateTime } from "luxon";
 import { HttpStatusCode } from "axios";
+import { BACKEND_BASE_URL, CLIENT_ID, ROOT } from "./constants/config";
+import { CLIENT_IDS } from "./constants/languages";
+import { TRANSLATIONS_BY_CLIENT } from "./constants/endpoints";
 
 i18next
   .use(LanguageDetector)
@@ -17,16 +20,32 @@ i18next
       return key;
     },
     backend: {
-      loadPath: "http://localhost:8000/players/getTranslations?lngs={{lng}}&ns={{ns}}",
+      loadPath: "{{lng}}",
       request: (options, url, payload, callback) => {
         console.log("Attempting request...", options, url, payload);
         try {
-          fetch(url).then(async (result) => {
+          fetch(BACKEND_BASE_URL + TRANSLATIONS_BY_CLIENT, {
+            method: "POST",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'http://localhost:3000'
+            },
+            body: JSON.stringify({
+              clientID: CLIENT_ID,
+              targetLanguageID: CLIENT_IDS[url]
+            })
+          }).then(async (result) => {
             return result.json();
           }).then(result => {
-            console.log("Translation request successful", result);
+            const translations = {};
+            for (const key in result.translations) {
+              const val = result.translations[key];
+              translations[val.sourceText] = val.targetText;
+            }
+
             callback(null, {
-              data: result,
+              data: translations,
               status: HttpStatusCode.Ok, 
             });
           });

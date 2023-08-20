@@ -3,13 +3,13 @@ const Languages = {
     nativeName: "English",
     flag: "GB"
   },
-  fr: {
-    nativeName: "français",
-    flag: "FR"
-  },
   zh: {
     nativeName: "中文",
     flag: "CN"
+  },
+  fr: {
+    nativeName: "français",
+    flag: "FR"
   }
 };
 
@@ -19,16 +19,21 @@ const Languages = {
  */
 const UnsupportedLanguages = {
   ar: {
-    nativeName: "عربي"
+    nativeName: "عربي",
+    flag: "SA"
   },
   de: {
-    nativeName: "Deutsch"
+    nativeName: "Deutsch",
+    flag: "DE"
   },
   es: {
-    nativeName: "español"
+    nativeName: "español",
+    flag: "ES"
   }
 };
 
 const DEFAULT_LANGUAGE = "en";
 
-module.exports = { Languages, UnsupportedLanguages, DEFAULT_LANGUAGE };
+const CLIENT_IDS = require('./clientIds.json');
+
+module.exports = { Languages, UnsupportedLanguages, DEFAULT_LANGUAGE, CLIENT_IDS };

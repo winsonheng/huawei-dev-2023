@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { BACKEND_BASE_URL } from "../constants/config";
+import { BACKEND_BASE_URL, ROOT } from "../constants/config";
 import { USERS_GET_CSRF } from "../constants/endpoints";
 
 export const StatusCode = {
@@ -52,14 +52,12 @@ export async function postData(method=HttpMethod.GET, url="", data={}, auth=fals
   console.log('Fetch from:', url);
 
   return fetch(url, {
-    credentials: "include",
     method: method,
     headers: {
       ...(auth ? getAuthHeaders() : {}),
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-CSRFToken': csrftoken,
-      'Access-Control-Allow-Origin': 'https://sheetify-frontend.web.app'
+      'Access-Control-Allow-Origin': ROOT
     },
     ...(method === HttpMethod.GET ? {} : {body: JSON.stringify(data)})
   })

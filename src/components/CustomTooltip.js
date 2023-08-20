@@ -3,10 +3,15 @@ import Select from 'react-select';
 import Form from 'react-bootstrap/Form'
 import { Button } from 'reactstrap';
 import Flags from 'country-flag-icons/react/3x2'
-import { DEFAULT_LANGUAGE, Languages, UnsupportedLanguages } from '../constants/languages';
+import { CLIENT_IDS, DEFAULT_LANGUAGE, Languages, UnsupportedLanguages } from '../constants/languages';
 import '../assets/styles/CustomTooltip.css';
 import { useTranslation } from 'react-i18next';
 import { T_LANDING, T_TOOLTIP } from '../constants/translations';
+import { BACKEND_BASE_URL, CLIENT_ID } from '../constants/config';
+import { HttpMethod, postData } from '../util/RestUtil';
+import { TRANSLATIONS_CREATE } from '../constants/endpoints';
+import { ToastContainer, toast } from 'react-toastify';
+import { HttpStatusCode } from 'axios';
 
 export default function CustomTooltip(props) {
 
@@ -36,6 +41,11 @@ export default function CustomTooltip(props) {
   const languageOptions = [];
 
   for (const key in Languages) {
+
+    if (key === DEFAULT_LANGUAGE) {
+      continue;
+    }
+
     const option = {
       value: key,
       label: Languages[key].nativeName,
@@ -45,7 +55,22 @@ export default function CustomTooltip(props) {
 
     if (key === sessionStorage.getItem('tooltipLanguage')) {
       defaultLanguage = option;
+
+      if (selectedOption === null) {
+        setSelectedOption(key);
+      }
     }
+  }
+
+  for (const key in UnsupportedLanguages) {
+
+    const option = {
+      value: key,
+      label: UnsupportedLanguages[key].nativeName,
+      Flag: Flags[UnsupportedLanguages[key].flag]
+    };
+    languageOptions.push(option);
+
   }
 
   const formatOptionLabel = ({ value, label, Flag }) => (
@@ -56,16 +81,44 @@ export default function CustomTooltip(props) {
   );
 
   function handleLanguageChange(e) {
-    console.log(e);
     sessionStorage.setItem('tooltipLanguage', e.value);
     setSelectedOption(e.value);
   }
 
   function onSubmit(e) {
-    console.log('Submitting tooltip', props.text, selectedOption, translation, isAccurate);
-  }
+    if (translation === '') {
+      return;
+    } 
 
-  console.log(defaultLanguage);
+    console.log('Submitting tooltip', props.text, selectedOption, translation, isAccurate);
+    const sourceLanguageID = CLIENT_IDS[DEFAULT_LANGUAGE];
+    const targetLanguageID = CLIENT_IDS[selectedOption];
+
+    console.log(`Submitting translation "${props.text}" to "${translation}" with lang from ${sourceLanguageID} to ${targetLanguageID}. Client ID: ${CLIENT_ID}`);
+
+    postData(
+      HttpMethod.POST,
+      BACKEND_BASE_URL + TRANSLATIONS_CREATE,
+      {
+        translations: [
+          {
+            text: props.text,
+            translation: translation,
+            sourceLanguageID: sourceLanguageID,
+            targetLanguageID: targetLanguageID,
+            isAccurate: isAccurate,
+            clientID: CLIENT_ID
+          }
+        ]
+      },
+      false
+    ).then(result => {
+      console.log(result);
+      if (result.status === HttpStatusCode.Created) {
+        toast.success(t(T_TOOLTIP.thankYou));
+      }
+    });
+  }
 
   return (
     <div style={{
@@ -74,6 +127,7 @@ export default function CustomTooltip(props) {
       alignItems: 'center',
       padding: '10px'
     }}>
+      <ToastContainer theme='colored' />
       <div style={{
         display: 'flex',
         flexDirection: 'column',
@@ -109,7 +163,7 @@ export default function CustomTooltip(props) {
           <Form.Group 
             className='tooltip-translation' 
             controlId='translation' 
-            onChange={setTranslation}
+            onChange={e => setTranslation(e.target.value)}
             >
             <Form.Control 
               className='tooltip-translation-input'
