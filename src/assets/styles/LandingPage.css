@@ -60,16 +60,6 @@
   background-position: left;
 }
 
-@keyframes hov {
-  50% {
-    background-color: cadetblue;
-    background-size: 50%;
-  } 100% {
-    background-color: #F8409C;
-    background-size: 100%;
-  }
-}
-
 .body-selected-file {
   color: aliceblue;
   text-overflow: ellipsis;

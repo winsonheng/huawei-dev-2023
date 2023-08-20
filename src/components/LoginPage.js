@@ -119,7 +119,7 @@ export default function LoginPage(props) {
             }
           });
         } else {
-          navigate(PATH.MY_SONGS);
+          navigate(PATH.MY_PRODUCTS);
           props.handleLogin(user);
         }
         toast.success('Login successful!');

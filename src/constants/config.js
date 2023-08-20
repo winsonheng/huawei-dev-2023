@@ -11,3 +11,4 @@ export const PATH = {
     PRODUCTS_PAGE: ROOT + 'products/',
     PRODUCT_DETAILS: ROOT + 'products/:productid/',
 };
+export const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;

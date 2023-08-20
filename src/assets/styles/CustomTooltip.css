@@ -1,0 +1,66 @@
+.tooltip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tooltip-question {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    align-self: center;
+}
+
+.tooltip-language-selector {
+    min-width: fit-content;
+    width: 12em;
+    margin-right: 20px;
+    color: black;
+}
+
+.thumbs-up {
+    background: url('../images/thumbs-up.png');
+    width: 2.5em;
+    height: 2.5em;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    
+}
+
+.thumbs-down {
+    background: url('../images/thumbs-down.png');
+    width: 2.5em;
+    height: 2.5em;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.thumbs-up:hover {
+    -webkit-filter: grayscale(33%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(33%);
+}
+
+.thumbs-down:hover {
+    -webkit-filter: grayscale(33%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(33%);
+}
+
+.thumbs-deactivated {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
+.tooltip-submit {
+    background-color:#FF7048;
+    font-weight: bold;
+    padding: 10px 25px;
+    margin: 0px 10px;
+    background: linear-gradient(to left, #FF7048 50%, rgb(39, 195, 39) 50%) right;
+    background-size: 200%;
+    transition: .15s ease-in;
+}
+
+.tooltip-submit:hover {
+    background-position: left;
+}

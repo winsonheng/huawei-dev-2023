@@ -4,57 +4,57 @@ import { BACKEND_BASE_URL, PATH } from '../constants/config';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { removeFileExtension } from '../util/FileUtil';
 import { HttpMethod, StatusCode, postData } from '../util/RestUtil';
-import { SONGS_GET_SONG_BY_ID } from '../constants/endpoints';
+import { PRODUCTS_GET_PRODUCT_BY_ID } from '../constants/endpoints';
 
 export default function ProductDetails(props) {
-  const { songid } = useParams();
+  const { productid } = useParams();
 
   const location = useLocation();
 
-  const [song, setSong] = useState(location.state == null ? null : location.state.song);
+  const [product, setProduct] = useState(location.state == null ? null : location.state.product);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const visualizer = useRef();
 
   useEffect(() => {
-    if (song === null) {
+    if (product === null) {
       return;
     }
     console.log("HERE");
     console.log(visualizer.current)
     setIsLoaded(prev => true);
-  }, [song]);
+  }, [product]);
 
-  function getSong() {
+  function getProduct() {
     postData(
       HttpMethod.GET, 
-      BACKEND_BASE_URL + SONGS_GET_SONG_BY_ID.replace(':songid', songid),
+      BACKEND_BASE_URL + PRODUCTS_GET_PRODUCT_BY_ID.replace(':productid', productid),
       {},
       true
     ).then(response => {
       if (response.status === StatusCode.OK) {
         console.log(response.data);
-        setSong(prev => response.data.song[0]);
+        setProduct(prev => response.data.product[0]);
       }
     })
   }
 
-  if (song === null) {
-    getSong();
+  if (product === null) {
+    getProduct();
     return (
       <div className='loading-animation'></div>
     );
   }
 
   return (
-    <div className='songdetails'>
-      <div className='songdetails-top'>
-        <h2 className='songdetails-title'>
-          {removeFileExtension(song.name)}
+    <div className='product-details'>
+      <div className='product-top'>
+        <h2 className='product-title'>
+          {removeFileExtension(product.name)}
         </h2>
         
       </div>
-      <div className='songdetails-bottom'>
+      <div className='product-bottom'>
       </div>
     </div>
   )

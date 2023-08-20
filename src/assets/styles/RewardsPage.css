@@ -1,4 +1,4 @@
-.mysongs {
+.myproducts {
     color: white;
     width: 100%;
     height: 100%;
@@ -8,20 +8,20 @@
     flex-direction: column;
 }
 
-.mysongs-top {
+.myproducts-top {
     display: flex;
     flex-direction: row;
     width: 100%;
     margin-bottom: 60px;
 }
 
-.mysongs-title {
+.myproducts-title {
     font-size: 48px;
     margin: 0 0 0 0;
     text-anchor: start;
 }
 
-.mysongs-upload-btn-wrapper {
+.myproducts-upload-btn-wrapper {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,7 @@
     justify-content: center;
 }
 
-.mysongs-upload-btn {
+.myproducts-upload-btn {
     align-self: flex-end;
     background-color:black;
     color: aliceblue;
@@ -40,11 +40,11 @@
     cursor: pointer;
 }
 
-.mysongs-upload-btn:hover {
+.myproducts-upload-btn:hover {
     background-color: cadetblue;
 }
 
-.mysongs-bottom {
+.myproducts-bottom {
     width: 100%;
     flex-grow: 1;
     display: flex;
@@ -54,7 +54,7 @@
     margin-bottom: 60px;
 }
 
-.mysongs-table {
+.myproducts-table {
     width: 100%;
     max-width: 100%;
 

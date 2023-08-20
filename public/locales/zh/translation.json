@@ -1,0 +1,23 @@
+{
+  "T_LANDING": {
+    "description": "您的打印需求一站式解决方案。",
+    "deliveredWithin": "2个工作日内交付。",
+    "shopNow": "立即购买",
+    "disclaimer": "可能会收取运费和税费。"
+  },
+  "T_TOOLTIP": {
+    "isAccurate": "这个翻译准确吗？",
+    "selectLanguage": "选择语言",
+    "suggest": "建议翻译",
+    "submit": "提交",
+    "feedback": "反馈"
+  },
+  "T_HEADER": {
+    "contributorMode": "贡献者模式",
+    "infoText": "在贡献者模式下，您可以帮助我们翻译并获得奖励！只需将鼠标悬停在任何文本上，将会出现弹出窗口。",
+    "products": "产品",
+    "rewards": "奖励",
+    "signup": "注册",
+    "login": "登录"
+  }
+}

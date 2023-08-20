@@ -5,11 +5,26 @@
 const T_LANDING = {
   description: "The one-stop solution for your printing needs.",
   deliveredWithin: "Delivered within 2 working days.",
-  showNow: "Shop Now",
+  shopNow: "Shop Now",
   disclaimer: "Shipping fees & taxes may apply.",
 }
 
+const T_HEADER = {
+  contributorMode: "Contributor Mode",
+  infoText: "In contributor mode, you can help us translate and earn rewards! Simply hover over any text and a popup will appear.",
+  products: "Products",
+  rewards: "Rewards",
+  signup: "Sign Up",
+  login: "Login",
+}
 
+const T_TOOLTIP = {
+  isAccurate: "Is this translation accurate?",
+  selectLanguage: 'Select language',
+  suggest: 'Suggest a translation',
+  submit: 'Submit',
+  feedback: 'Feedback'
+}
 
 /**
  * Appends 'groupName.' in front of all keys
@@ -45,7 +60,9 @@ function initializeTranslationKeys() {
 
 const toExport = {
   initializeTranslationKeys,
-  T_LANDING
+  T_LANDING,
+  T_TOOLTIP,
+  T_HEADER,
 };
 
 module.exports = toExport;

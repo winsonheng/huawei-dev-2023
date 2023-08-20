@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import { DateTime } from "luxon";
+import { HttpStatusCode } from "axios";
 
 i18next
   .use(LanguageDetector)
@@ -11,22 +12,28 @@ i18next
   .init({
     debug: true,
     fallbackLng: "en",
+    returnNull: false,
+    parseMissingKeyHandler: (key) => {
+      return key;
+    },
     backend: {
-      loadPath: "http://localhost:8000/players/getTranslations",
+      loadPath: "http://localhost:8000/players/getTranslations?lngs={{lng}}&ns={{ns}}",
       request: (options, url, payload, callback) => {
         console.log("Attempting request...", options, url, payload);
         try {
-          fetch("http://localhost:8000/players/getTranslations").then(async (result) => {
-            console.log("Translation request successful", await result.json());
+          fetch(url).then(async (result) => {
+            return result.json();
+          }).then(result => {
+            console.log("Translation request successful", result);
             callback(null, {
               data: result,
-              status: 200, 
+              status: HttpStatusCode.Ok, 
             });
           });
         } catch (e) {
           console.error(e);
           callback(null, {
-            status: 500,
+            status: HttpStatusCode.InternalServerError,
           });
         }
       },

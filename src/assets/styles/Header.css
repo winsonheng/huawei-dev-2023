@@ -32,6 +32,26 @@
   padding: 0 50px;
 }
 
+.header-switch {
+  margin: 0px 20px;
+}
+
+.header-contributor-mode {
+  color: rgb(59, 61, 61);
+  font-weight: bold;
+  margin: 0px;
+  margin-right: 10px;
+}
+
+.header-contributor-mode.disabled {
+  opacity: 42%;
+}
+
+.header-info {
+  width: 2em;
+  height: 2em;
+}
+
 .header-links {
   display: flex;
   flex-direction: row;
@@ -72,8 +92,8 @@
 
 .login-btn {
   min-width: 6em;
-  background: rgb(41, 205, 41);
-  border: 2px solid rgb(41, 205, 41);
+  background: rgb(39, 195, 39);
+  border: 2px solid rgb(39, 195, 39);
   border-radius: 5px;
   color: rgb(243, 243, 243) !important;
   padding: 5px 10px 5px 10px;

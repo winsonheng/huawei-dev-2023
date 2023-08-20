@@ -55,7 +55,7 @@ export default function VerifiedPage() {
             <div className='signup-email-sent-icon'/>
             <p className='signup-email-sent-text'>
               Proceed to login and start transcribing
-              <br></br>your songs now!
+              <br></br>your products now!
             </p>
             <div className='signup-email-resend-wrapper create-account-btn-wrapper'>
             <Link to={PATH.LOGIN_PAGE} state={{ email: email }}>

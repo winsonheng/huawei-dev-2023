@@ -1,0 +1,23 @@
+{
+  "T_LANDING": {
+    "description": "La solution complète pour vos besoins d'impression.",
+    "deliveredWithin": "Livré dans les 2 jours ouvrables.",
+    "shopNow": "Acheter maintenant",
+    "disclaimer": "Des frais de livraison et taxes peuvent s'appliquer."
+  },
+  "T_TOOLTIP": {
+    "isAccurate": "Cette traduction est-elle précise ?",
+    "selectLanguage": "Sélectionner la langue",
+    "suggest": "Proposer une traduction",
+    "submit": "Soumettre",
+    "feedback": "Feedback"
+  },
+  "T_HEADER": {
+    "contributorMode": "Mode Contributeur",
+    "infoText": "En mode contributeur, vous pouvez nous aider à traduire et gagner des récompenses ! Survolez simplement n'importe quel texte et une fenêtre contextuelle apparaîtra.",
+    "products": "Produits",
+    "rewards": "Récompenses",
+    "signup": "S'inscrire",
+    "login": "Connexion"
+  }
+}

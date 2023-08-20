@@ -7,10 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import 'react-tooltip/dist/react-tooltip.css'
 import './i18n'
-import { initializeTranslationKeys } from "./constants/translations";
-// To turn off i18n, just remove this line without refactoring all t(GROUP.key) calls
-initializeTranslationKeys();
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

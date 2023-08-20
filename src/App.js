@@ -7,7 +7,7 @@ import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 import { PATH } from './constants/config';
 import Cookies from 'universal-cookie';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import VerifiedPage from './components/VerifiedPage';
 import UserSetupPage from './components/UserSetupPage';
 import RewardsPage from './components/RewardsPage';
@@ -20,6 +20,8 @@ export const UserContext = createContext({
 });
 
 function App() {
+
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const location = useLocation();
 
@@ -48,12 +50,12 @@ function App() {
   return (
     <div className={"App" + (location.pathname === '/' ? ' landing' : '')}>
       <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-        <Header></Header>
+        <Header forceUpdate={forceUpdate}></Header>
       </UserContext.Provider>
       <Routes>
         <Route path={PATH.ROOT} >
           <Route index element={<LandingPage />}></Route>
-          <Route path={PATH.LANDING_PAGE} element={<LandingPage />}></Route>
+          <Route path={PATH.LANDING_PAGE} element={<LandingPage/>}></Route>
           <Route path={PATH.LOGIN_PAGE} element={<LoginPage handleLogin={handleLogin} setToken={setToken}/>}></Route>
           <Route path={PATH.SIGNUP_PAGE} element={<SignupPage />}></Route>
           <Route path={PATH.VERIFIED_PAGE} element={<VerifiedPage />}></Route>

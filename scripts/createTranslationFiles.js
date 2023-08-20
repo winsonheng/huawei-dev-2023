@@ -1,4 +1,6 @@
-const { languages } = require("../src/constants/languages");
+require('dotenv').config({ path: '.env.development' });
+const fetch = require("node-fetch");
+const { Languages: Languages, UnsupportedLanguages } = require("../src/constants/languages");
 const {
   initializeTranslationKeys,
   ...tGroupsDefaultLanguage
@@ -194,11 +196,161 @@ function mkdirSync(dir) {
  */
 mkdirSync("public");
 mkdirSync("public/locales");
-for (const lang in languages) {
+for (const lang in Languages) {
   console.log(lang);
 
   createTranslationFile(lang);
 }
+
+/**
+ * Syncing with backend
+ */
+async function createLanguageInBackend(name, code) {
+  return fetch(process.env.REACT_APP_API_BASE_URL + 'languages', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: name,
+      code: code
+    })
+  }).then(response => {
+    return response.json();
+  });
+}
+
+async function createAllLanguages() {
+  const clientIds = {};
+  for (const key in Languages) {
+    const name = Languages[key].nativeName;
+    await createLanguageInBackend(name, key).then(response => {
+      if (response.error) {
+        return;
+      }
+      clientIds[key] = response.language.id;
+    });
+  }
+  
+  for (const key in UnsupportedLanguages) {
+    const name = UnsupportedLanguages[key].nativeName;
+    await createLanguageInBackend(name, key).then(response => {
+      if (response.error) {
+        return;
+      }
+      clientIds[key] = response.language.id;
+    });
+  }
+  return clientIds;
+}
+
+/**
+ * Uploads the existing translations for a given language to the backend
+ */
+function syncTranslationsToBackend(srcPtr, targetPtr, srcId, targetId) {
+  if (srcPtr === undefined) {
+    return;
+  }
+
+  for (const targetKey in targetPtr) {
+    const srcObj = srcPtr[targetKey];
+    const targetObj = targetPtr[targetKey];
+
+    if (srcObj === undefined) {
+      continue;
+    }
+
+    if (
+      targetObj !== null &&
+      typeof targetObj === "object" &&
+      srcObj !== null &&
+      typeof srcObj === "object"
+    ) {
+      // Both values are objects => Recursively overwrite nested objects
+      syncTranslationsToBackend(srcObj, targetObj, srcId, targetId);
+    } else if (
+      (srcObj !== null && typeof srcObj === "string") &&
+      (targetObj !== null && typeof targetObj === "string")
+    ) {
+      // Both values are type string => Upload to backend
+      uploadTranslation(srcObj, targetObj, srcId, targetId);
+    }
+  }
+}
+
+function uploadTranslation(text, translation, sourceLanguageID, targetLanguageID) {
+  const clientID = parseInt(process.env.REACT_APP_CLIENT_ID);
+
+  fetch(process.env.REACT_APP_API_BASE_URL + 'translations', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      text: text,
+      translation: translation,
+      sourceLanguageID: sourceLanguageID,
+      targetLanguageID: targetLanguageID,
+      clientID: clientID
+    })
+  }).then(response => {
+    return response.json();
+  }).then(response => {
+    if (response.error) {
+      console.log(`ERROR | Upload fail for "${text}" to "${translation}" from lang ${sourceLanguageID} to ${targetLanguageID}`, response);
+    } else {
+      console.log(`SUCCESS | Uploaded translation for "${text}" to "${translation}" from lang ${sourceLanguageID} to ${targetLanguageID}`);
+    }
+  });
+}
+
+createAllLanguages().then(clientIds => {
+  // Create json file containing clientIds
+  if (Object.keys(clientIds).length === 0) {
+    console.log('No new client IDs created');
+    return;
+  }
+  fs.writeFileSync(
+    'public/locales/clientIds.json',
+    JSON.stringify(
+      clientIds,
+      (key, val) => (val === undefined ? null : val), // Convert undefined to null since undefined values are auto discarded
+      2
+    ),
+    "utf8",
+    () => console.log("DONE")
+  );  
+}).then(res => {
+  // For each existing translation.json file, upload existing translations to backend
+
+  const clientIds = require('../public/locales/clientIds.json');
+
+  for (const lang in Languages) {
+    if (lang === DEFAULT_LANGUAGE) {
+      continue;
+    }
+
+    const filePathDir = `public/locales/${lang}`;
+    // Both refer to same file but the functions use different base paths
+    const fileRead = `../${filePathDir}/translation.json`;
+
+    let readJson = {};
+
+    // Read existing translation.json file if it exists
+    try {
+      readJson = require(fileRead);
+    } catch (err) {
+      continue;
+    }
+
+    const srcId = clientIds[DEFAULT_LANGUAGE];
+    const targetId = clientIds[lang];
+
+    syncTranslationsToBackend(tGroupsDefaultLanguage, readJson, srcId, targetId);
+  }
+})
 
 // Enter all required values for the DEFAULT_LANGUAGE (en) in constants/translations.js
 // This will create the DEFAULT_LANGUAGE json file with the same key-value pairs
