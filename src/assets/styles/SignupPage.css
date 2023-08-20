@@ -201,10 +201,6 @@
   align-items: center;
 }
 
-.signup-email-sent-header {
-
-}
-
 .signup-email-sent-icon {
   background-image: url("../images/email-verification-icon.png");
   width: 20%;
