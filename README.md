@@ -1,5 +1,8 @@
-# translate-backend
-backend for translate app
+# i18n Software-as-a-Service
+As developers who have experienced the dreaded process of i18n, we understand it's tough no matter how you approach it.
+
+- Hire professional translators?
+   - Costl
 
 # Tech stack
 - Golang: see https://go.dev/
