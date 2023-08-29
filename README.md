@@ -1,8 +1,36 @@
-# i18n Software-as-a-Service
+# you&i18n - an i18n Crowdsourcing Tool
 As developers who have experienced the dreaded process of i18n, we understand it's tough no matter how you approach it.
 
-- Hire professional translators?
-   - Costl
+- _Hire professional translators?_
+   - Costly for small businesses & solo developers
+- _Use Google Translate?_
+   - Inaccurate, lacks context and cultural nuances
+
+But what if you could **crowdsource** translations from loyal users and open-source contributors?
+Hence, we devised a Software-as-a-Service (SaaS) that removes all translation woes! 
+
+### With you&i18n, everyone wins!
+#### You Get:
+- Free & accurate translations
+- Increased community engagement
+
+#### Contributors Get:
+- Rewards on your application (e.g. in-game currency)
+- Satisfaction for helping their favourite developers!
+
+_**Together with you&i, we can make apps accessible to everyone!**_
+
+## How It Works
+### Custom Tooltip
+We've designed a custom React tooltip that pops up when users hover over texts in _Contributor Mode_. Simply include the scripts in your app and users can:
+- Rate the existing translation
+- Suggest a better translation (for any language)
+
+### Smart Translation Selection
+Our AI-powered service determines the most accurate translations by assigning weights to users' ratings and calculating a similarity index between user submissions. Each translation is given a confidence score and we'll return the best one!
+
+### Fallback Mechanisms
+Don't be worried if some languages are not fully ready yet. We'll automatically use Huawei Cloud's state-of-the-art Natural Language Processing APIs to generate translations for you! For common words & phrases, we'll search our existing master database for your immediate use.
 
 # Tech stack
 - Golang: see https://go.dev/
